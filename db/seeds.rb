@@ -20,5 +20,9 @@ adventure = Category.create(name: "Adventure")
   Video.create(title: "The Pursuit of Happyness", description: "A struggling salesman takes custody of his son as he's poised to begin a life-changing professional endeavor.",
     small_cover_url: "/videos/the_pursuit_of_happyness_small.jpg", large_cover_url: "/videos/the_pursuit_of_happyness_large.jpg", category: drama)
 end
-Video.create(title: "Fight Club", description: "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker and they form an underground fight club that evolves into something much, much more...",
+fight_club = Video.create(title: "Fight Club", description: "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker and they form an underground fight club that evolves into something much, much more...",
 small_cover_url: "/videos/fight_club_small.jpg", large_cover_url: "/videos/fight_club_large.jpg", category: drama)
+
+jeffrey = User.create(full_name: 'Jeffrey Wong', password:'jeggrey', email: 'jw@gmail.com')
+Review.create(user: jeffrey, video: fight_club, rating:4, content: "Awesome. Must-watch movire!")
+Review.create(user: jeffrey, video: fight_club, rating:5, content: "It is wonderful!!!")
