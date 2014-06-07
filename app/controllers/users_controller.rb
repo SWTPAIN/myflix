@@ -15,6 +15,9 @@ class UsersController < ApplicationController
     end 
   end
 
+  def queue
+  end
+
   def user_params
     params.require(:user).permit(:full_name, :password, :email)
   end
