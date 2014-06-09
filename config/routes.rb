@@ -17,5 +17,9 @@ Myflix::Application.routes.draw do
   end
   resources :categories, only: [:show]
   resources :users, only: [:create]
-  resources :queue_items, only: [:create, :destroy]
+  resources :queue_items, only: [:create, :destroy] do
+    collection do
+      patch 'update_multiple'
+    end
+  end
 end
