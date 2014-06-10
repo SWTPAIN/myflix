@@ -13,4 +13,15 @@ class User < ActiveRecord::Base
   def has_queued_video?(video)
     !queue_items.where(video: video).blank?
   end
+
+  def update_queue_items(queue_items)
+    ActiveRecord::Base.transaction do    
+      queue_items.each do |queue_item_data|
+        queue_item = QueueItem.find(queue_item_data[:queue_item_id])
+        queue_item.update_attributes!(
+          position: queue_item_data[:position], rating: queue_item_data[:rating]) if self.queue_items.include?(queue_item)
+      end
+    end
+  end
+
 end
