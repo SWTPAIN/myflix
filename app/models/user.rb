@@ -10,4 +10,7 @@ class User < ActiveRecord::Base
       queue_item.update_attributes(position: index+1)}
   end
 
+  def has_queued_video?(video)
+    !queue_items.where(video: video).blank?
+  end
 end

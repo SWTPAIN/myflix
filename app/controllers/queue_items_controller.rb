@@ -47,7 +47,7 @@ class QueueItemsController < ApplicationController
       params[:queue_item_positions].each do |queue_item_data|
         queue_item = QueueItem.find(queue_item_data[:queue_item_id])
         queue_item.update_attributes!(
-          position: queue_item_data[:position]) if current_user.queue_items.include?(queue_item)
+          position: queue_item_data[:position], rating: queue_item_data[:rating]) if current_user.queue_items.include?(queue_item)
       end
     end
   end
