@@ -101,7 +101,7 @@ describe QueueItemsController do
 
     it_behaves_like 'require sign in' do
       let (:action) do 
-        patch :update_multiple, queue_item_positions: [{queue_item_id: 1, position: 3},
+        patch :update_multiple, queue_items: [{queue_item_id: 1, position: 3},
         {queue_item_id: 2, position: 2.5}]
       end
     end
@@ -117,16 +117,16 @@ describe QueueItemsController do
       before { set_current_user(alice) }
 
       it 'redirects to the my queue path for authenticated user' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: "2"},{queue_item_id: queue_item2.id, position: "1"}]
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: "2"},{queue_item_id: queue_item2.id, position: "1"}]
         expect(response).to redirect_to my_queue_path 
       end
       it 'reorder the queue_item' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 2},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 2},
           {queue_item_id: queue_item2.id, position: 1}]
         expect(alice.queue_items).to eq([queue_item2,queue_item1])
       end 
       it 'normalize the position numbers' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 3},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 3},
           {queue_item_id: queue_item2.id, position: 2}]
         expect(alice.queue_items.map(&:position)).to eq([1,2])
       end
@@ -143,17 +143,17 @@ describe QueueItemsController do
       before { set_current_user(alice) }
 
       it 'redirect_to my queue path' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 3.5},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 3.5},
           {queue_item_id: queue_item2.id, position: 2}]
         expect(response).to redirect_to my_queue_path
       end
       it 'set the flash danger notice' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 3.5},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 3.5},
           {queue_item_id: queue_item2.id, position: 2}]
         expect(flash[:danger]).not_to be_blank
       end
       it 'does not change the queue items' do
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 3},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 3},
           {queue_item_id: queue_item2.id, position: 2.5}]
         expect(queue_item1.reload.position).to eq(1)
       end
@@ -168,7 +168,7 @@ describe QueueItemsController do
         video2 = Fabricate(:video)
         queue_item1 = Fabricate(:queue_item, video: video1, user: bob, position:1)
         queue_item2 = Fabricate(:queue_item, video: video2, user: bob, position:2)
-        patch :update_multiple, queue_item_positions: [{queue_item_id: queue_item1.id, position: 2},
+        patch :update_multiple, queue_items: [{queue_item_id: queue_item1.id, position: 2},
           {queue_item_id: queue_item2.id, position: 1}]
         expect(queue_item1.reload.position).to eq(1)
       end
