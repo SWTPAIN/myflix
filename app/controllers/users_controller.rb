@@ -6,15 +6,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    # binding.pry
     if @user.save
-      flash[:info] = 'You have sucessfully login'
+      flash[:info] = 'You have sucessfully signed in. Please login it with new account.'
       redirect_to sign_in_path
     else
       render :new
     end 
   end
-
+  
   def user_params
     params.require(:user).permit(:full_name, :password, :email)
   end

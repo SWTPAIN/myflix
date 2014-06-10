@@ -15,19 +15,21 @@ gem 'faker'
 
 group :development do
   gem 'sqlite3'
-  gem 'pry'
-  gem 'pry-nav'
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
 end
 
 group :test, :development do
+  gem 'pry'
+  gem 'pry-nav'
   gem 'rspec-rails'
 end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :production do
