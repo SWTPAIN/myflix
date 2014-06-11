@@ -44,7 +44,8 @@ feature "User interact with the queue" do
   end
 
   def set_video_postion(video, position)
-    within(:xpath, "//tr[contains(.,'#{video.title}')]" ) do
+    within(:xpath, "//input[@name='queue_items[][queue_item_id]' and 
+@value='#{video.id}']/ancestor::tr[1]" ) do
       fill_in "queue_items[][position]", with: position
     end    
   end
