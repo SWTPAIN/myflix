@@ -10,7 +10,7 @@ feature "User interact with the queue" do
     ironman =Fabricate(:video, title: "Ironman", category: fantasy)
     sign_in
 
-    find("a[href='/videos/#{superman.id}']").click
+    click_on_video_on_home_page(superman)
     expect(page).to have_content superman.title
 
     click_link "+ My Queue"

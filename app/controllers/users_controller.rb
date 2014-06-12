@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:info] = 'You have sucessfully signed in. Please login it with new account.'
+      flash[:info] = 'You have sucessfully signed in. Please login it with your account.'
       redirect_to sign_in_path
     else
       render :new
