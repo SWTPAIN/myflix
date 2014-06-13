@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :reviews, -> {order("created_at DESC")}
   has_many :queue_items, -> { order(:position)}
   has_many :following_relationships, class_name: "Relationship", foreign_key: 'follower_id'
+  before_create :generate_token
+
   
   def normalize_queue_position
     queue_items.each_with_index { |queue_item, index| 
@@ -33,4 +35,12 @@ class User < ActiveRecord::Base
   def can_follow?(another_user)
     !(self.follows?(another_user) || self == another_user)
   end
+
+  def generate_token
+    begin
+    self.token = SecureRandom.urlsafe_base64
+    end while User.exists?(token: self.token)
+  end
+
+
 end

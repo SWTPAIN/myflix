@@ -9,6 +9,9 @@ Myflix::Application.routes.draw do
   get '/my_queue', to: 'queue_items#index'
   get '/people', to: 'relationships#index'
   get 'ui(/:action)', controller: 'ui'
+  get 'forgot_password', to: 'forgot_passwords#new'
+  get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
+  get 'expired_token', to: 'reset_passwords#expired_token'
 
   resources :videos, only: [:show] do
     collection do
@@ -24,4 +27,6 @@ Myflix::Application.routes.draw do
       patch 'update_multiple'
     end
   end
+  resources :forgot_passwords, only: [:create]
+  resources :reset_passwords, only: [:show, :create]
 end

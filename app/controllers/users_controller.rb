@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:info] = 'You have sucessfully signed in. Please login it with your account.'
+      AppMailer.send_welcome_email(@user).deliver
       redirect_to sign_in_path
     else
       render :new

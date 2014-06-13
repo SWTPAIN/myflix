@@ -16,7 +16,7 @@ describe UsersController do
   describe 'POST create' do
     context 'with valid input' do
       before { post :create, user: Fabricate.attributes_for(:user) }
-      it "create the user" do
+      it "creates the user" do
         expect(User.count).to eq(1)
       end
       it "redirect_to sign in template" do
@@ -28,14 +28,33 @@ describe UsersController do
       it 'does not create the user' do
         expect(User.count).to eq(0)
       end
-      it "render the :new template" do
+      it "renders the :new template" do
         expect(response).to render_template :new
       end
-      it 'set @user variable' do
+      it 'sets @user variable' do
         post :create, user: { password: 'password'}
         expect(assigns(:user)).to be_instance_of(User)
       end
     end
+    context 'sending email' do
+      after { ActionMailer::Base.deliveries.clear }
+      it 'sends the email to the user with valid input' do
+        post :create, user: { email: 'alice@gmail.com', password: 'passowrd',
+                              full_name: 'Alice'}
+        expect(ActionMailer::Base.deliveries).not_to be_empty       
+      end
+      it 'sends the email containing user name with valid input ' do
+        post :create, user: { email: 'alice@gmail.com', password: 'passowrd',
+                              full_name: 'Alice'}
+        email = ActionMailer::Base.deliveries.last 
+        expect(email.body).to include('Alice')
+      end
+      it 'does not send the email with invalid content' do
+        post :create, user: { email: 'alice@gmail.com', password: 'passowrd'}
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
   end
 
   describe 'GET show' do
