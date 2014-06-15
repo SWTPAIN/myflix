@@ -26,7 +26,6 @@ describe ForgotPasswordsController do
         email = ActionMailer::Base.deliveries.last 
         expect(email.to).to eq(['alice@gmail.com']) 
       end
-      it 'send the emails containing a link /password_reset/token' 
     end
     context 'with non-existing email input' do
       it 'redirects to the forgot password confirmation page' do
