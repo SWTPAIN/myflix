@@ -10,7 +10,7 @@ feature "User interact with the queue" do
     ironman =Fabricate(:video, title: "Ironman", category: fantasy)
     sign_in
 
-    find("a[href='/videos/#{superman.id}']").click
+    click_on_video_on_home_page(superman)
     expect(page).to have_content superman.title
 
     click_link "+ My Queue"
@@ -44,7 +44,8 @@ feature "User interact with the queue" do
   end
 
   def set_video_postion(video, position)
-    within(:xpath, "//tr[contains(.,'#{video.title}')]" ) do
+    within(:xpath, "//input[@name='queue_items[][queue_item_id]' and 
+@value='#{video.id}']/ancestor::tr[1]" ) do
       fill_in "queue_items[][position]", with: position
     end    
   end
