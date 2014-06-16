@@ -12,6 +12,10 @@ gem 'bootstrap_form'
 gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
+gem 'redis'
+gem 'foreman'
+gem 'unicorn'
 
 group :development do
   gem 'sqlite3'

@@ -8,7 +8,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(friend_params.merge(inviter: current_user))
     if @invitation.save
       flash[:info] = "You have successfully invited #{@invitation.recipient_name} ."
-      AppMailer.send_invitation_email(@invitation).deliver
+      AppMailer.delay.send_invitation_email(@invitation)
       redirect_to root_path
     else
       flash[:danger] = "Please check your input."
