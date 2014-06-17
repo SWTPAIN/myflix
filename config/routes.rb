@@ -1,5 +1,9 @@
+require 'sidekiq/web'
 Myflix::Application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   root to: 'pages#front'
+
 
   get '/register', to: 'users#new'
   get '/register/:token', to: 'users#new_with_invitation_token',
