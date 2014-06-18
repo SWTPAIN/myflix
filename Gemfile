@@ -18,6 +18,9 @@ gem 'redis'
 gem 'foreman'
 gem 'paratrooper'
 gem 'unicorn'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog', "~> 1.3.1"
 
 group :development do
   gem 'sqlite3'
