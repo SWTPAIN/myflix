@@ -3,9 +3,9 @@ ruby '2.0.0'
 
 gem 'bootstrap-sass'
 gem 'coffee-rails'
-gem 'rails'
+gem 'rails', "~> 4.0.1"
 gem 'haml-rails'
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'bootstrap_form'
@@ -20,7 +20,7 @@ gem 'paratrooper'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'fog', "~> 1.3.1"
+gem 'fog'
 
 group :development do
   gem 'sqlite3'
