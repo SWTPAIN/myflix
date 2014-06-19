@@ -6,6 +6,15 @@ GIT
       capybara (~> 2.3)
       mail
 
+GIT
+  remote: https://github.com/stripe/stripe-ruby
+  revision: bb9388384f8bade9cf257e5907679e7afaab85a6
+  specs:
+    stripe (1.14.0)
+      json (~> 1.8.1)
+      mime-types (~> 1.25)
+      rest-client (~> 1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -84,6 +93,9 @@ GEM
       i18n (~> 0.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    figaro (0.7.0)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     fog (1.22.1)
       fog-brightbox
       fog-core (~> 1.22)
@@ -188,6 +200,8 @@ GEM
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
     rendezvous (0.0.2)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec-core (3.0.1)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.1)
@@ -276,6 +290,7 @@ DEPENDENCIES
   coffee-rails
   fabrication
   faker
+  figaro
   fog
   foreman
   haml-rails
@@ -297,6 +312,7 @@ DEPENDENCIES
   sidekiq
   sinatra
   sqlite3
+  stripe!
   thin
   uglifier
   unicorn

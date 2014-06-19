@@ -21,6 +21,8 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'figaro'
 
 group :development do
   gem 'sqlite3'
