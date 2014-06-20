@@ -12,7 +12,7 @@ class ResetPasswordsController < ApplicationController
       user.password = params[:password]
       user.generate_token
       user.save
-      flash[:notice] = "Your passowrd has been changed. Please login it with new password"
+      flash[:info] = "Your passowrd has been changed. Please login it with new password"
       redirect_to sign_in_path
     else
       redirect_to expired_token_path

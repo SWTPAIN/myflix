@@ -1,5 +1,9 @@
+require 'sidekiq/web'
 Myflix::Application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   root to: 'pages#front'
+
 
   get '/register', to: 'users#new'
   get '/register/:token', to: 'users#new_with_invitation_token',
@@ -33,4 +37,10 @@ Myflix::Application.routes.draw do
   resources :forgot_passwords, only: [:create]
   resources :reset_passwords, only: [:show, :create]
   resources :invitations, only:[:create]
+
+  namespace :admin do
+    resources :videos, only:[:new, :create]
+  end
+
+  resources :payments, only: [:create]
 end

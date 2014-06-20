@@ -3,9 +3,9 @@ ruby '2.0.0'
 
 gem 'bootstrap-sass'
 gem 'coffee-rails'
-gem 'rails'
+gem 'rails', "~> 4.0.1"
 gem 'haml-rails'
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'bootstrap_form'
@@ -13,9 +13,16 @@ gem 'bcrypt-ruby'
 gem 'fabrication'
 gem 'faker'
 gem 'sidekiq'
+gem 'sinatra', require: false
 gem 'redis'
 gem 'foreman'
 gem 'paratrooper'
+gem 'unicorn'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'figaro'
 
 group :development do
   gem 'sqlite3'
@@ -41,7 +48,6 @@ end
 group :production do
   gem 'pg'
   gem 'rails_12factor'
-  gem 'unicorn'
   gem "sentry-raven"
 end
 

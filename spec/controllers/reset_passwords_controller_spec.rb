@@ -32,7 +32,7 @@ describe ResetPasswordsController do
       it 'sets the flash notice' do
         alice = Fabricate(:user)
         post :create, token: alice.token, password: "alice"
-        expect(flash[:notice]).to be_present
+        expect(flash[:info]).to be_present
       end
       it 'regenerates the user token to nil' do
         alice = Fabricate(:user)
