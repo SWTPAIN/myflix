@@ -15,7 +15,11 @@
 /tmp
 
 /.env
-/*.rdb
+/dump.rdb
 
 # Ignore application configuration
 /config/application.yml
+
+
+# Ignore VCR files
+/spec/cassettes
