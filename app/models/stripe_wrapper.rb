@@ -2,6 +2,7 @@ module StripeWrapper
   class Charge
     attr_reader :response, :status
     def self.create(options={})
+      self.set_api_key
       Stripe::Charge.create(
         :amount => options[:amount],
         :currency => 'usd',

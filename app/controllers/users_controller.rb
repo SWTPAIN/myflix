@@ -26,7 +26,10 @@ class UsersController < ApplicationController
     token = params[:stripToken]
     if @user.save
       handle_invitation
-      StripeWrapper::Charge.create(amount: 999, stripe_token: token, user: @user)
+      StripeWrapper::Charge.set_api_key
+      StripeWrapper::Charge.create(amount: 999,
+                                   stripe_token: token,
+                                   description: "Sign up charge for #{@user.full_name} ( #{@user.email}")
       flash[:info] = 'You have sucessfully signed in. Please login it with your account.'
       AppMailer.delay.send_welcome_email(@user)
       redirect_to sign_in_path

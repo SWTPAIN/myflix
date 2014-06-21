@@ -15,7 +15,7 @@ def sign_in(user=nil)
 end
 
 def sign_out
-  click_link 'Logout'
+  visit '/sign_out'
 end
 
 def click_on_video_on_home_page(video)
