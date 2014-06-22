@@ -59,3 +59,4 @@ RSpec.configure do |config|
 end
 
 Capybara.server_port = 52662
+Capybara.javascript_driver = :webkit
