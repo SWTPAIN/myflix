@@ -52,4 +52,10 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+  config.before(:each) do
+    ActionMailer::Base.deliveries.clear
+    Sidekiq::Worker.clear_all
+  end
 end
+
+Capybara.server_port = 52662

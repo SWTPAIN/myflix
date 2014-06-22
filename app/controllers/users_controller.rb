@@ -16,6 +16,7 @@ class UsersController < ApplicationController
       redirect_to expired_token_path
     end
   end
+  Invitation.all
 
   def show
     @user = User.find(params[:id])
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    token = params[:stripToken]
+    token = params[:stripeToken]
     if @user.save
       handle_invitation
       StripeWrapper::Charge.set_api_key
