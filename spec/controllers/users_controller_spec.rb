@@ -14,8 +14,11 @@ describe UsersController do
   end
 
   describe 'POST create' do
-    context 'with valid input' do
-      before { allow(StripeWrapper::Charge).to receive(:create) }
+    context 'with valid personal info input and valid card' do
+      before do 
+        charge = double('charge', successful?: true)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge) 
+      end
       after { ActionMailer::Base.deliveries.clear }
       it "creates the user" do
         post :create, user: Fabricate.attributes_for(:user)
@@ -49,8 +52,27 @@ describe UsersController do
         expect(Invitation.first.token).to be_nil
       end
     end
-    context 'with invalid input' do
-      before { post :create, user: { password: 'password' } }
+    context 'with valid personal info and declined card' do
+      before do
+        charge = double('charge', successful?: false, error_message: 'error')
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+      end
+      it 'renders the new template' do
+        post :create, user: Fabricate.attributes_for(:user)
+        expect(response).to render_template :new
+      end
+      it 'does not create a new user record' do
+        post :create, user: Fabricate.attributes_for(:user)
+        expect(User.count).to eq(0)
+      end
+
+      it 'sets the flash danger' do
+        post :create, user: Fabricate.attributes_for(:user)
+        expect(flash[:danger]).to be_present
+      end
+    end
+    context 'with invalid person info input' do
+      before { post :create, user: { email: 'alice@gmail.com', password: 'password' } }
       it 'does not create the user' do
         expect(User.count).to eq(0)
       end
@@ -58,12 +80,20 @@ describe UsersController do
         expect(response).to render_template :new
       end
       it 'sets @user variable' do
-        post :create, user: { password: 'password'}
         expect(assigns(:user)).to be_instance_of(User)
+      end
+      it 'does not charge the credit card' do
+        expect(StripeWrapper::Charge).not_to receive(:create)
+      end   
+      it 'does not send the email' do
+        expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
     context 'sending email' do
-      before { allow(StripeWrapper::Charge).to receive(:create) }
+      before do 
+        charge = double('charge', successful?: true)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge) 
+      end
       after { ActionMailer::Base.deliveries.clear }
       it 'sends the email to the user with valid input' do
         post :create, user: { email: 'alice@gmail.com', password: 'passowrd',
@@ -76,10 +106,7 @@ describe UsersController do
         email = ActionMailer::Base.deliveries.last 
         expect(email.body).to include('Alice')
       end
-      it 'does not send the email with invalid content' do
-        post :create, user: { email: 'alice@gmail.com', password: 'passowrd'}
-        expect(ActionMailer::Base.deliveries).to be_empty
-      end
+
     end
   end
 
