@@ -23,6 +23,8 @@ gem 'mini_magick'
 gem 'fog'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'figaro'
+gem 'decorator'
+gem 'draper', '~> 1.3'
 
 group :development do
   gem 'sqlite3'
