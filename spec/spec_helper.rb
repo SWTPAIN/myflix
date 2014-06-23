@@ -56,6 +56,9 @@ RSpec.configure do |config|
     ActionMailer::Base.deliveries.clear
     Sidekiq::Worker.clear_all
   end
+  config.mock_with :rspec do |mocks|
+    mocks.verify_doubled_constant_names = true
+  end
 end
 
 Capybara.server_port = 52662

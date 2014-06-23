@@ -24,37 +24,20 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    token = params[:stripeToken]
-    if @user.valid?
-      charge = StripeWrapper::Charge.create(amount: 999,
-                                   stripe_token: token,
-                                   description: "Sign up charge for #{@user.full_name} ( #{@user.email}")
-      if charge.successful?
-        @user.save
-        handle_invitation
-        flash[:info] = 'You have sucessfully signed in. Please login it with your account.'
-        AppMailer.delay.send_welcome_email(@user)
-        redirect_to sign_in_path
-      else
-        flash[:danger] = charge.error_message
-        render :new
-      end
+    stripe_token = params[:stripeToken]
+    invitation_token = params[:invitation_token]
+    result = UserRegistration.new(@user).registrate(stripe_token, invitation_token)
+    if result.successful?
+      flash[:info] = 'You have sucessfully signed in. Please login it with your account.'
+      redirect_to sign_in_path
     else
-      flash[:danger] = "Invalid user information. Please check the errors below."
+      flash[:danger] = result.error_message
       render :new
-    end 
+    end
+
   end
 
   private
-
-  def handle_invitation
-    if params[:invitation_token].present?
-      invitation = Invitation.where(token: params[:invitation_token]).first
-      @user.follows(invitation.inviter)
-      invitation.inviter.follows(@user)
-      invitation.update_attributes(token: nil)
-    end
-  end
 
   def user_params
     params.require(:user).permit(:full_name, :password, :email)
