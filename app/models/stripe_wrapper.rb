@@ -27,5 +27,31 @@ module StripeWrapper
       response.present?
     end
   end
+
+  class Customer
+    attr_reader :response, :error_message
+    def initialize(options={})
+      @response = options[:response]
+      @error_message = options[:error_message]
+    end
+    def self.create(options={})
+      begin
+        response = Stripe::Customer.create(
+          :card => options[:stripe_token],
+          :plan => "base",
+          :email => options[:user].email
+        )
+        new(response: response)
+      rescue Stripe::CardError => e
+        body = e.json_body
+        err = body[:error]
+        new(error_message: err[:message])
+      end
+    end
+    def successful?
+      response.present?
+    end
+  end
+
 end
 

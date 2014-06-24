@@ -4,8 +4,8 @@ describe UserRegistration do
   describe '#registrate' do
     context 'with valid personal info and valid card' do
       before do
-        charge = double('charge', successful?: true, error_message: 'Error')
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double('customer', successful?: true, error_message: 'Error')
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
       end
       after { ActionMailer::Base.deliveries.clear }
       it "creates a user" do
@@ -44,8 +44,8 @@ describe UserRegistration do
 
     context 'with valid personal info and declined card' do
       it 'does not create a new user' do
-        charge = double('charge', successful?: false, error_message: 'Declined')
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double('customer', successful?: false, error_message: 'Declined')
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserRegistration.new(Fabricate.build(:user)).registrate('some_token', nil)
         expect(User.count).to eq(0)
       end
@@ -56,7 +56,7 @@ describe UserRegistration do
         expect(User.count).to eq(0)
       end
       it 'does not charge the credit card' do
-        expect(StripeWrapper::Charge).not_to receive(:create)
+        expect(StripeWrapper::Customer).not_to receive(:create)
         UserRegistration.new(Fabricate.build(:user, full_name: nil)).registrate('some_token', nil)
       end   
       it 'does not send the email' do
