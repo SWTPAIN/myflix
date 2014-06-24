@@ -6,7 +6,7 @@
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
-      =bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-3", control_col: 'col-sm-10', html: {id: 'payment-form'}) do |f|
+      =bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-3", control_col: 'col-sm-9', html: {id: 'payment-form'}) do |f|
         %header
           %h1 Register
         %fieldset
@@ -19,11 +19,11 @@
           .form-group
             = label_tag :credit_card_number, 'Credit Card Number', class: 'control-label col-sm-3 '
             .col-sm-6
-              = text_field_tag :credit_card_number, nil, data: {stripe: 'number'},class: 'form-control col-sm-6'             
+              = text_field_tag :credit_card_number, nil, data: {stripe: 'number'},class: 'form-control'             
           .form-group
             = label_tag :security_code, 'Security Code', class: 'control-label col-sm-3'
             .col-sm-6
-              = text_field_tag :security_code, nil, data: {stripe: 'cvc'}, class: 'form-control col-sm-6'
+              = text_field_tag :security_code, nil, data: {stripe: 'cvc'}, class: 'form-control'
           .form-group
             = label_tag nil, 'Expiration', class: 'control-label col-sm-3'
             .col-sm-3

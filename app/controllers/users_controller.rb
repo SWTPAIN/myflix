@@ -16,7 +16,6 @@ class UsersController < ApplicationController
       redirect_to expired_token_path
     end
   end
-  Invitation.all
 
   def show
     @user = User.find(params[:id])
