@@ -23,6 +23,8 @@ gem 'mini_magick'
 gem 'fog'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem 'figaro'
+gem 'decorator'
+gem 'draper', '~> 1.3'
 
 group :development do
   gem 'sqlite3'
@@ -43,6 +45,11 @@ group :test do
   gem 'capybara'
   gem 'capybara-email', github: 'dockyard/capybara-email'
   gem 'launchy'
+  gem 'vcr'
+  gem 'webmock'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
+  gem "capybara-webkit"
 end
 
 group :production do

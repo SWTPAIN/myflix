@@ -14,69 +14,30 @@ describe UsersController do
   end
 
   describe 'POST create' do
-    context 'with valid input' do
-      after { ActionMailer::Base.deliveries.clear }
-      it "creates the user" do
-        post :create, user: Fabricate.attributes_for(:user)
-        expect(User.count).to eq(1)
-      end
+    context 'with successful user registration' do
+        before do
+          result = double(:result, successful?: true )
+          expect_any_instance_of(UserRegistration).to receive(:registrate).and_return(result)
+          post :create, user: Fabricate.attributes_for(:user)
+        end
       it "redirects to sign in template" do
-        post :create, user: Fabricate.attributes_for(:user)
         expect(response).to redirect_to sign_in_path
       end
-      it 'makes the user follow the inviter' do
-        alice = Fabricate(:user)
-        invitation = Fabricate(:invitation, recipient_email: 'bob@gmail.com', inviter: alice)
-        post :create, user: {full_name: 'Bob', email: 'bob@gmail.com', password: 'password'},
-         invitation_token: invitation.token
-        bob = User.where(email: 'bob@gmail.com').first
-        expect(bob.follows?(alice)).to be true 
-      end
-      it 'makes the inviter follow the user' do
-        alice = Fabricate(:user)
-        invitation = Fabricate(:invitation, recipient_email: 'bob@gmail.com', inviter: alice)
-        post :create, user: {full_name: 'Bob', email: 'bob@gmail.com', password: 'password'},
-         invitation_token: invitation.token
-        bob = User.where(email: 'bob@gmail.com').first
-        expect(alice.follows?(bob)).to be true
-      end
-      it 'expires the invitation upon acceptance' do
-        alice = Fabricate(:user)
-        invitation = Fabricate(:invitation, recipient_email: 'bob@gmail.com', inviter: alice)
-        post :create, user: {full_name: 'Bob', email: 'bob@gmail.com', password: 'password'},
-         invitation_token: invitation.token
-        expect(Invitation.first.token).to be_nil
+      it 'set the flash info' do
+        expect(flash[:info]).to be_present
       end
     end
-    context 'with invalid input' do
-      before { post :create, user: { password: 'password' } }
-      it 'does not create the user' do
-        expect(User.count).to eq(0)
+    context 'with failed user registration' do
+      before do
+        result = double(:result, successful?: false, error_message: 'Error' )
+        expect_any_instance_of(UserRegistration).to receive(:registrate).and_return(result)
+        post :create, user: Fabricate.attributes_for(:user)
       end
-      it "renders the :new template" do
+      it 'renders the :new template' do
         expect(response).to render_template :new
       end
-      it 'sets @user variable' do
-        post :create, user: { password: 'password'}
-        expect(assigns(:user)).to be_instance_of(User)
-      end
-    end
-    context 'sending email' do
-      after { ActionMailer::Base.deliveries.clear }
-      it 'sends the email to the user with valid input' do
-        post :create, user: { email: 'alice@gmail.com', password: 'passowrd',
-                              full_name: 'Alice'}
-        expect(ActionMailer::Base.deliveries).not_to be_empty       
-      end
-      it 'sends the email containing user name with valid input ' do
-        post :create, user: { email: 'alice@gmail.com', password: 'passowrd',
-                              full_name: 'Alice'}
-        email = ActionMailer::Base.deliveries.last 
-        expect(email.body).to include('Alice')
-      end
-      it 'does not send the email with invalid content' do
-        post :create, user: { email: 'alice@gmail.com', password: 'passowrd'}
-        expect(ActionMailer::Base.deliveries).to be_empty
+      it 'sets the flash danger' do
+        expect(flash[:danger]).to be_present
       end
     end
   end

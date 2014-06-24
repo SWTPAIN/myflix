@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   end
 
   def has_queued_video?(video)
-    !queue_items.where(video: video).blank?
+    !queue_items.where(video_id: video.id).blank?
   end
 
   def update_queue_items(queue_items)
