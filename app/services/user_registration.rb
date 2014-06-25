@@ -11,6 +11,7 @@ class UserRegistration
         stripe_token: stripe_token
       )
       if customer.successful?
+        @user.customer_token = customer.customer_token
         @user.save
         handle_invitation(invitation_token)
         AppMailer.delay.send_welcome_email(@user)

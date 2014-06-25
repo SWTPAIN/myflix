@@ -4,13 +4,17 @@ describe UserRegistration do
   describe '#registrate' do
     context 'with valid personal info and valid card' do
       before do
-        customer = double('customer', successful?: true, error_message: 'Error')
+        customer = double('customer', successful?: true, error_message: 'Error', customer_token: 'abc')
         expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
       end
       after { ActionMailer::Base.deliveries.clear }
       it "creates a user" do
         UserRegistration.new(Fabricate.build(:user)).registrate('some_token', nil)
         expect(User.count).to eq(1)
+      end
+      it 'saves the customer token from stripe' do
+        UserRegistration.new(Fabricate.build(:user)).registrate('some_token', nil)
+        expect(User.last.customer_token).to eq('abc')
       end
       it 'makes the user follow the inviter' do
         alice = Fabricate(:user)

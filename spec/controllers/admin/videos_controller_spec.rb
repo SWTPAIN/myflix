@@ -22,10 +22,10 @@ describe Admin::VideosController do
   end
   describe 'POST create' do
     it_behaves_like 'require sign in' do
-      let (:action) { post :create}
+      let (:action) { post :create }
     end
     it_behaves_like 'require admin' do
-      let (:action) { post :create}
+      let (:action) { post :create }
     end
 
     context 'with valid input' do
