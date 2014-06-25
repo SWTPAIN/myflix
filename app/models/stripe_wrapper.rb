@@ -48,6 +48,23 @@ module StripeWrapper
         new(error_message: err[:message])
       end
     end
+    def self.retrieve(customer_token)
+      begin
+        response = Stripe::Customer.retrieve(customer_token)
+        new(response: response)
+      rescue Stripe::InvalidRequestError => e
+        new(error_message: e.message)
+      end
+    end
+    
+    def subscription
+      subscription_data = response[:subscriptions][:data][0]
+      { name: subscription_data[:plan][:name],
+        amount: subscription_data[:plan][:amount],
+        current_billing_end_at: subscription_data[:current_period_end]
+      }
+    end
+
     def successful?
       response.present?
     end

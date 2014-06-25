@@ -19,6 +19,7 @@ Myflix::Application.routes.draw do
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
   get 'expired_token', to: 'pages#expired_token'
   get 'invite', to: 'invitations#new'
+  get 'billing', to: 'billings#index'
 
   resources :videos, only: [:show] do
     collection do

@@ -67,5 +67,27 @@ describe StripeWrapper do
         expect(response.error_message).to be_present
       end
     end
+    describe '.retrieve' do
+      it 'creates a customer with valid customer token', :vcr do
+        response = StripeWrapper::Customer.retrieve('cus_4HkZtOqymdFBWK')
+        expect(response).to be_successful
+      end
+      it 'does not create a customer with invalid customer token', :vcr do
+        response = StripeWrapper::Customer.retrieve('abc')
+        expect(response).not_to be_successful
+      end
+      it 'returns the error  message with invalid customer token', :vcr do
+        response = StripeWrapper::Customer.retrieve('abc')
+        expect(response.error_message).to be_present
+      end
+    end
+    describe '#subscription' do
+      it 'return a hash with subscription information', :vcr do
+        response = StripeWrapper::Customer.retrieve('cus_4HkZtOqymdFBWK')
+        expect(response.subscription[:name]).to eq("Base Subscription")
+        expect(response.subscription[:amount]).to eq(999)
+        expect(Time.at(response.subscription[:current_billing_end_at])).to be_instance_of Time 
+      end
+    end
   end
 end

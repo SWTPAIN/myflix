@@ -33,7 +33,6 @@ class UsersController < ApplicationController
       flash[:danger] = result.error_message
       render :new
     end
-
   end
 
   private
