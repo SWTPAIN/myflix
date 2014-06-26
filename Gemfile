@@ -26,6 +26,7 @@ gem 'stripe_event'
 gem 'figaro'
 gem 'decorator'
 gem 'draper', '~> 1.3'
+gem 'videojs_rails'
 
 group :development do
   gem 'sqlite3'
