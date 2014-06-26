@@ -4,7 +4,7 @@ describe User do
   it { should validate_presence_of(:email) }
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:full_name) }
-  it { should validate_uniqueness_of(:email) }
+  # it { should validate_uniqueness_of(:email) }
   it { should have_many(:queue_items).order(:position) }
   it { should have_many(:reviews).order("created_at DESC") }
 
@@ -70,6 +70,14 @@ describe User do
       alice = Fabricate(:user)
       alice.follows(alice)
       expect(alice.follows?(alice)).to be false
+    end
+  end
+
+  describe '#deactivate!' do
+    it 'deactives an active user' do
+      alice = Fabricate(:user, active: true)
+      alice.deactivate!
+      expect(alice).not_to be_active
     end
   end
 

@@ -1,0 +1,19 @@
+%section.account.container
+  .row
+    .col-md-10.col-lg-offset-1
+      =bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-3", control_col: 'col-sm-9', html: {id: 'payment-form'}) do |f|
+        %header
+          %h1 Your Account
+        %fieldset
+          =f.email_field :email, label: "Email Address", control_col: "col-sm-6"
+          =f.password_field :password, label: "Password", control_col: "col-sm-6"
+          = f.password_field :password_confirmation, label: 'Confirm Password',control_col: "col-sm-6"
+          / .form-group
+          /   %label.control-label.col-sm-3 Confirm Password
+          /   .col-sm-4
+          /     %input.form-control(type="password")
+          =f.text_field :full_name, label: "Full Name", control_col: "col-sm-6"
+        %fieldset.actions.form-group
+          .col-sm-8.col-lg-offset-3
+            = f.submit 'Update', class: 'btn btn-default'
+            = link_to "Cancel", home_path

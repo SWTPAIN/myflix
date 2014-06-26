@@ -9,8 +9,9 @@
     = form_tag(search_videos_path, method: 'get', class: 'col-md-5 navbar-form') do
       .form-group
         = text_field_tag :search_term,nil, class: 'form-control', placeholder: "Search for videos here"
-        = submit_tag "Search", class: 'btn btn-default',name: nil
-
+        = button_tag(type: 'submit', class: 'form-control btn btn-default') do
+          %span.glyphicon.glyphicon-search
+          Search
 
     #user_links.pull-right
       %ul
@@ -20,7 +21,22 @@
             %b.caret
           %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
             %li
-              = link_to "Invite a friend", invite_path
-              %a(href="#") Account
-              %a(href="#") Plan and Billing
-              = link_to 'Logout',sign_out_path
+              = link_to invite_path do
+                %span.glyphicon.glyphicon-envelope
+                Invite a friend
+              = link_to account_path do
+                %span.glyphicon.glyphicon-user
+                Account
+              = link_to billing_path do
+                %span.glyphicon.glyphicon-credit-card
+                Plan and Billing
+              = link_to sign_out_path do
+                %span.glyphicon.glyphicon-off
+                Logout
+            - if current_user.admin?
+              %li.divider
+              %li
+                = link_to new_admin_video_path do
+                  %span.glyphicon.glyphicon-eye-open
+                  Admin Console
+                

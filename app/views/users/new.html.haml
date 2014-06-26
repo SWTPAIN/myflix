@@ -10,23 +10,23 @@
         %header
           %h1 Register
         %fieldset
-          =f.email_field :email, label: "Email Address", control_col: "col-sm-6"
-          =f.password_field :password, label: "Password", control_col: "col-sm-6"
-          =f.text_field :full_name, label: "Full Name", control_col: "col-sm-6"
+          =f.email_field :email, label: "Email Address", control_col: "col-sm-4"
+          =f.password_field :password, label: "Password", control_col: "col-sm-4"
+          =f.text_field :full_name, label: "Full Name", control_col: "col-sm-4"
           =hidden_field_tag :invitation_token, @invitation_token
         %fieldset.credit_card
           %span.payment-errors
           .form-group
             = label_tag :credit_card_number, 'Credit Card Number', class: 'control-label col-sm-3 '
-            .col-sm-6
+            .col-sm-4
               = text_field_tag :credit_card_number, nil, data: {stripe: 'number'},class: 'form-control'             
           .form-group
             = label_tag :security_code, 'Security Code', class: 'control-label col-sm-3'
-            .col-sm-6
+            .col-sm-4
               = text_field_tag :security_code, nil, data: {stripe: 'cvc'}, class: 'form-control'
           .form-group
             = label_tag nil, 'Expiration', class: 'control-label col-sm-3'
-            .col-sm-3
+            .col-sm-2
               = select_month(Date.today, {add_month_numbers: true},  class: 'form-control', name: nil, data: {stripe: 'exp-month'})
             .col-sm-2
               = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control', name: nil, data: {stripe: 'exp-year'} )

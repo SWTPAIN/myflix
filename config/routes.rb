@@ -19,6 +19,8 @@ Myflix::Application.routes.draw do
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
   get 'expired_token', to: 'pages#expired_token'
   get 'invite', to: 'invitations#new'
+  get 'billing', to: 'billings#index'
+  get 'account', to: 'users#edit'
 
   resources :videos, only: [:show] do
     collection do
@@ -28,7 +30,7 @@ Myflix::Application.routes.draw do
   end
   resources :relationships, only: [:destroy, :create]
   resources :categories, only: [:show]
-  resources :users, only: [:create, :show]
+  resources :users, only: [:create, :show, :update]
   resources :queue_items, only: [:create, :destroy] do
     collection do
       patch 'update_multiple'
@@ -39,8 +41,10 @@ Myflix::Application.routes.draw do
   resources :invitations, only:[:create]
 
   namespace :admin do
+    resources :payments, only: [:index]
     resources :videos, only:[:new, :create]
   end
 
   resources :payments, only: [:create]
+  mount StripeEvent::Engine => '/stripe_events'
 end

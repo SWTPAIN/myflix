@@ -2,7 +2,7 @@
   .container
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %img(src="#{@video.large_cover_url}")
+        =videojs_rails sources: { mp4: @video.video_url }, width: "665", height: "375", poster: @video.large_cover_url
       .video_info.col-sm-3
         %header
           %h3 
@@ -13,8 +13,15 @@
           = @video.description
         .actions
           =link_to 'Watch Now', @video.video_url, class: 'btn btn-primary'
-          =link_to '+ My Queue', queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' unless current_user.has_queued_video?(@video)
-
+          /=link_to '+ My Queue', queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' unless current_user.has_queued_video?(@video)
+          - if current_user.has_queued_video?(@video)
+            = link_to '', class: 'btn btn-default disabled' do
+              %span.glyphicon.glyphicon-ok
+              In Queue
+          - else
+            = link_to queue_items_path(video_id: @video.id), method: :post, class: 'btn btn-default' do
+              %span.glyphicon.glyphicon-plus
+              MyQueue
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1

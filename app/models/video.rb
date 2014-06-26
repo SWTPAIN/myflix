@@ -1,4 +1,5 @@
 class Video < ActiveRecord::Base
+  include Sluggable
   belongs_to :category
   has_many :reviews, -> { order("created_at DESC") } 
 
@@ -6,6 +7,7 @@ class Video < ActiveRecord::Base
   mount_uploader :small_cover, SmallCoverUploader
 
   validates_presence_of :title, :description
+  sluggable_column :title
 
 
   def self.search_by_title(search_term)
