@@ -51,7 +51,7 @@ Video.create(
     video_url: 'https://s3.amazonaws.com/zenlifting/myflix/Fight+Club+The+8+Rules.mp4'
 )
 
-User.create(full_name: 'Administrator', email: 'admin@gmail.com', password: 'admin', admin: true)
+User.create(full_name: 'Administrator', email: 'admin@gmail.com', password: 'admin', admin: true, customer_token: "cus_4HUdA4foOplPUe")
 
 Video.all.each do |video|
   5.times { video.reviews.create(user: User.first, rating: (0..5).to_a.sample, content: Faker::Lorem.paragraph) }
