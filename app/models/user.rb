@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include Tokenable
+  include Sluggable
+
   # validates_presence_of :email, :password, :full_name
   # validates_uniqueness_of :email
   has_secure_password validations: false
@@ -11,6 +13,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: {minimum: 5}
 
+  sluggable_column :full_name
   
   def normalize_queue_position
     queue_items.each_with_index { |queue_item, index| 
