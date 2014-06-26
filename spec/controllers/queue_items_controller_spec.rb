@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 describe QueueItemsController do 
   describe 'GET index' do
     it 'sets the @queue_items to the queue item of the authenticated user' do
