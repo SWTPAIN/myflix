@@ -13,11 +13,11 @@ feature "User interact with the queue" do
     click_on_video_on_home_page(superman)
     expect(page).to have_content superman.title
 
-    click_link "+ My Queue"
+    click_link "MyQueue"
     expect(page).to have_content superman.title
     
     visit video_path(superman)
-    expect_link_not_to_be_seen("+ My Queue")
+    expect_link_not_to_be_seen("MyQueue")
   
     add_video_to_queue(spiderman)
     add_video_to_queue(ironman)
@@ -34,13 +34,13 @@ feature "User interact with the queue" do
   end
 
   def expect_link_not_to_be_seen(link_text)
-    expect(page).not_to have_content "+ My Queue"
+    expect(page).not_to have_content link_text
   end
 
   def add_video_to_queue(video)
     visit home_path
     find("a[href='/videos/#{video.id}']").click
-    click_link "+ My Queue"
+    click_link "MyQueue"
   end
 
   def set_video_postion(video, position)

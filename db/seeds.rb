@@ -8,7 +8,7 @@
 
 action = Category.create(name: "Action")
 comedy = Category.create(name: "Comedy")
-drama = Category.create(name: "Drma")
+drama = Category.create(name: "Drama")
 reality = Category.create(name: "Reality")
 sports = Category.create(name: "Sports")
 horror = Category.create(name: "Horror")
