@@ -70,5 +70,4 @@ describe 'Deactivate user on failed charge' do
     post stripe_event_path, event_data
     expect(alice.reload).not_to be_active
   end
-  it 'sends out the suspension email'
 end

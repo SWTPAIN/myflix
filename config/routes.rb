@@ -20,6 +20,7 @@ Myflix::Application.routes.draw do
   get 'expired_token', to: 'pages#expired_token'
   get 'invite', to: 'invitations#new'
   get 'billing', to: 'billings#index'
+  get 'account', to: 'users#edit'
 
   resources :videos, only: [:show] do
     collection do
@@ -29,7 +30,7 @@ Myflix::Application.routes.draw do
   end
   resources :relationships, only: [:destroy, :create]
   resources :categories, only: [:show]
-  resources :users, only: [:create, :show]
+  resources :users, only: [:create, :show, :update]
   resources :queue_items, only: [:create, :destroy] do
     collection do
       patch 'update_multiple'

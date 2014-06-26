@@ -16,5 +16,6 @@ module Myflix
       g.template_engine :haml
     end
     config.autoload_paths << "#{Rails.root}/lib"
+    # config.logger = Logger.new(STDOUT)
   end
 end
